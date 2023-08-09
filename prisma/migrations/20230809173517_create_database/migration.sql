@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `User` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
 
@@ -9,7 +9,7 @@ CREATE TABLE `User` (
 
 -- CreateTable
 CREATE TABLE `Pet` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `userId` INTEGER NOT NULL,
     `restLevel` INTEGER NOT NULL,
