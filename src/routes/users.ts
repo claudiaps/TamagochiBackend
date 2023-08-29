@@ -28,29 +28,25 @@ router.post('/register', async (req: Request, res: Response, next) => {
 router.post('/login', async (req: Request, res: Response, next) => {
     try {
         const user = RegisterSchema.parse(req.body)
+        console.log(user)
         const databaseUser = await findByEmail(user.email)
         if (databaseUser) {
             const matchPassword = bcrypt.compareSync(user.password, databaseUser.password)
             if (matchPassword) {
-                var token = jwt.sign(user, 'shhhhh');
+                var token = jwt.sign(databaseUser, 'shhhhh');
                 return res.json({
                     token,
                 })
             }
-            return res.status(401).json({
-                message: "Dados inválidos"
-            })
         } 
-        
+
         return res.status(401).json({
-            message: "Usuário não encontrado"
+            message: "Dados inválidos"
         })
         
     } catch(error) {
         next(error)
     }
-
 })
-
 
 export default router
