@@ -22,3 +22,7 @@ export const deletePet = async (petId: number) => {
    const pet = await prisma.pet.findFirst({where: {id: petId}})
    return prisma.pet.update({where: {id: petId}, data: {...pet, deletedAt: new Date()}})
 }
+
+export const getPets = async (userId: number) => {
+   return prisma.pet.findMany({where: {userId, deletedAt: null}})
+}

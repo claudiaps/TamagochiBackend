@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import validateToken from "../middleware/auth";
-import { createPet, deletePet, getPetById, updatePet } from "../db/pet";
+import { createPet, deletePet, getPetById, getPets, updatePet } from "../db/pet";
 import { PetSchema } from "../validators/pet";
 
 const router = Router()
@@ -79,6 +79,48 @@ router.delete('/pet/:id', validateToken,async (req: Request, res: Response, next
             message: "Ocorreu um erro"
         })
     }
+})
+
+router.get('/pets', validateToken, async (req: Request, res: Response, next) => {
+    try {
+        const {id: userId} = res.locals.user
+        const pets = await getPets(userId)
+        res.status(200).json({
+            pets
+        })
+
+    } catch(error) {
+        console.log(error)
+        res.status(400).json({
+            message: "Ocorreu um erro"
+        })
+    }
+    
+})
+
+router.get('/pet/:id', validateToken, async (req: Request, res: Response, next) => {
+    console.log('shahsa')
+    try {
+        const {id: userId} = res.locals.user
+        const {id: petId} = req.params
+        const pet = await getPetById(Number(petId), userId)
+        if (!pet) {
+            return res.status(404).json({
+                message: "Pet não encontrado"
+            })
+        }
+
+        res.status(200).json({
+            ...pet
+        })
+        
+    } catch(error) {
+        console.log(error)
+        res.status(400).json({
+            message: "Ocorreu um erro"
+        })
+    }
+    
 })
 
 export default router
