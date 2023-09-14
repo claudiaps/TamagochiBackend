@@ -1,0 +1,25 @@
+-- CreateTable
+CREATE TABLE "User" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Pet" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "restLevel" REAL NOT NULL DEFAULT 80,
+    "foodLevel" REAL NOT NULL DEFAULT 80,
+    "funLevel" REAL NOT NULL DEFAULT 80,
+    "deletedAt" DATETIME,
+    "updatedAt" DATETIME,
+    "lastGet" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    "life" REAL NOT NULL DEFAULT 80,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Pet_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
