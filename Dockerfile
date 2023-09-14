@@ -9,7 +9,8 @@ COPY . /app
 # Install the application dependencies
 RUN npm install
 RUN npm run build
-RUN npx prisma migrate deploy
+RUN npx prisma generate              # Generate Prisma Client to fix the error
+RUN DATABASE_URL="" npx prisma migrate deploy   # Provide an empty DATABASE_URL environment variable
 
 # Define the entry point for the container
 CMD ["npm", "start"]
